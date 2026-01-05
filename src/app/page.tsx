@@ -1,58 +1,170 @@
-// app/page.tsx
+"use client";
+
 import Image from "next/image";
 import TypingText from "@/components/TypingText";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [battleState, setBattleState] = useState<'intro' | 'menu'>('intro');
+
+  /* 
+   Menu Index Mapping (2x2 Grid):
+   0: Fight (Top Left)   | 1: Bag (Top Right)
+   2: Pokemon (Bot Left) | 3: Run (Bot Right)
+  */
+  const [menuSelection, setMenuSelection] = useState<number>(0);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (battleState === 'intro') {
+        if (e.key === 'Enter') {
+          setBattleState('menu');
+        }
+      } else if (battleState === 'menu') {
+        // Menu Navigation Logic
+        if (e.key === 'ArrowRight') {
+          setMenuSelection((prev) => (prev % 2 === 0 ? prev + 1 : prev));
+        } else if (e.key === 'ArrowLeft') {
+          setMenuSelection((prev) => (prev % 2 !== 0 ? prev - 1 : prev));
+        } else if (e.key === 'ArrowDown') {
+          setMenuSelection((prev) => (prev < 2 ? prev + 2 : prev));
+        } else if (e.key === 'ArrowUp') {
+          setMenuSelection((prev) => (prev >= 2 ? prev - 2 : prev));
+        } else if (e.key === 'Enter') {
+          // Optional: Handle selection (e.g. log or alert)
+          console.log(`Selected option index: ${menuSelection}`);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [battleState, menuSelection]); // menuSelection dependency added for log, logic mainly depends on prev
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4 bg-gray-100 font-pixel"> {/* 전체 컨테이너 & 배경색 설정 */}
+    <main className="relative flex min-h-screen flex-col items-center justify-between p-4 bg-gray-100 font-pixel overflow-hidden">
+      {/* Intro Animation Overlay */}
+      <motion.div
+        className="absolute inset-0 bg-black z-50 pointer-events-none"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      />
+
       {/* 상단: 상대방 (예: 면접관, 방문자) */}
-      <div className="w-full max-w-2xl flex justify-end items-center space-x-4 p-4">
+      <motion.div
+        className="w-full max-w-2xl flex justify-end items-center space-x-4 p-4"
+        initial={{ x: "100%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
+      >
         <div className="flex space-x-1">
-          {/* 포켓몬 볼 아이콘 6개 (예시) */}
+          {/* 포켓몬 볼 아이콘 6개 */}
           {[...Array(6)].map((_, i) => (
-            <div
+            <motion.div
               key={i}
               className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
-            ></div>
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
+            ></motion.div>
           ))}
         </div>
-        {/* 상대방 캐릭터 이미지 (예시) */}
-        <Image
-          src="/img/metamong.jpg"
-          alt="Rival"
-          width={100}
-          height={100}
-          className="pixelated"
-        /> {/* pixelated 클래스로 이미지 픽셀화 */}
-      </div>
+        {/* 상대방 캐릭터 이미지 */}
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        >
+          <Image
+            src="/img/metamong.jpg"
+            alt="Rival"
+            width={100}
+            height={100}
+            className="pixelated"
+          />
+        </motion.div>
+      </motion.div>
 
       {/* 하단: 플레이어 (본인) */}
-      <div className="w-full max-w-2xl flex justify-start items-center space-x-4 p-4 mt-auto mb-8">
-        {/* 본인 캐릭터 이미지 (예시) */}
-        <Image
-          src="/img/player.jpg"
-          alt="Player"
-          width={120}
-          height={120}
-          className="pixelated"
-        />
+      <motion.div
+        className="w-full max-w-2xl flex justify-start items-center space-x-4 p-4 mt-auto mb-8"
+        initial={{ x: "-100%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
+      >
+        {/* 본인 캐릭터 이미지 */}
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.3 }}
+        >
+          <Image
+            src="/img/player.jpg"
+            alt="Player"
+            width={120}
+            height={120}
+            className="pixelated"
+          />
+        </motion.div>
         <div className="flex space-x-1">
-          {/* 포켓몬 볼 아이콘 6개 (본인 스킬/프로젝트 수로 응용 가능) */}
+          {/* 포켓몬 볼 아이콘 6개 */}
           {[...Array(6)].map((_, i) => (
-            <div
+            <motion.div
               key={i}
               className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
-            ></div>
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
+            ></motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      {/* 중앙: 메시지 박스 */}
-      <div className="w-full max-w-3xl bg-white p-2 rounded-sm border-[6px] border-black shadow-[inset_0_0_0_4px_white,inset_0_0_0_8px_#555]">
-        <div className="p-4 min-h-[120px]">
-          <TypingText text="PKMN TRAINER RED wants to battle!" />
+      {/* 중앙: 메시지 박스 또는 메뉴 */}
+      <motion.div
+        className="w-full max-w-3xl bg-white p-2 rounded-sm border-[6px] border-black shadow-[inset_0_0_0_4px_white,inset_0_0_0_8px_#555]"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
+      >
+        <div className="p-4 min-h-[120px] relative">
+          {battleState === 'intro' ? (
+            <TypingText text="PKMN TRAINER RED wants to battle!" startDelay={2.0} />
+          ) : (
+            <div className="grid grid-cols-2 gap-4 h-full text-xl font-bold">
+              {[
+                { label: "싸우다", id: 0 },
+                { label: "가방", id: 1 },
+                { label: "포켓몬", id: 2 },
+                { label: "도망치다", id: 3 }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  className={`p-2 text-left border-2 rounded flex items-center ${menuSelection === item.id
+                    ? "border-black bg-gray-100"
+                    : "border-transparent text-gray-400" // Not selected style
+                    }`}
+                >
+                  <span className="w-6 inline-block">
+                    {menuSelection === item.id ? "▶" : ""}
+                  </span>
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
+          {/* Enter Key Hint (optional, hidden in visuals but useful for DX) */}
+          {battleState === 'intro' && (
+            <motion.div
+              className="absolute bottom-2 right-4 text-xs text-gray-400 animate-pulse"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 4 }}
+            >
+              Press Enter ▼
+            </motion.div>
+          )}
         </div>
-      </div>
+      </motion.div>
     </main>
   );
 }

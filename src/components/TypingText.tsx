@@ -5,9 +5,9 @@ import { motion, Variants } from 'framer-motion';
 // 1. 외부에서 타입을 명시하며 정의합니다.
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: (i = 1) => ({
+  visible: (startDelay = 0) => ({
     opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 * i },
+    transition: { staggerChildren: 0.05, delayChildren: startDelay },
   }),
 };
 
@@ -26,10 +26,11 @@ const childVariants: Variants = {
 
 interface TypingTextProps {
   text: string;
+  startDelay?: number;
 }
 
 // 2. TypingText 컴포넌트 내의 motion.div 스타일 수정
-const TypingText = ({ text }: TypingTextProps) => {
+const TypingText = ({ text, startDelay = 0 }: TypingTextProps) => {
   const characters = Array.from(text);
 
   return (
@@ -42,6 +43,7 @@ const TypingText = ({ text }: TypingTextProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
+      custom={startDelay}
     >
       {characters.map((char, index) => (
         <motion.span
