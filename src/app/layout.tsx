@@ -16,9 +16,9 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-            <html lang="ko">
-                {/* 폰트 클래스 적용 */}
-                <body className={pressStart2P.className}>{children}</body>
-            </html>
+        <html lang="ko">
+            {/* 폰트 클래스 적용 */}
+            <body className={pressStart2P.className}>{children}</body>
+        </html>
     )
 }
