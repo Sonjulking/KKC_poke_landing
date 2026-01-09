@@ -46,10 +46,17 @@ export default function PortfolioList({
                             <div className="text-xs text-gray-500">{project.desc}</div>
                             {/* Tech Badges instead of HP Bar */}
                             <div className="mt-1 flex flex-wrap gap-1">
-                                <span className="text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-800 border border-blue-300 rounded">
-                                    {project.stack.frontend.split(',')[0].trim()}
-                                </span>
-                                {!project.stack.backend.includes("N/A") && !project.stack.backend.includes("None") && (
+                                {project.stack.language && (
+                                    <span className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-300 rounded">
+                                        {project.stack.language.split(',')[0].trim()}
+                                    </span>
+                                )}
+                                {project.stack.frontend && (
+                                    <span className="text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-800 border border-blue-300 rounded">
+                                        {project.stack.frontend.split(',')[0].trim()}
+                                    </span>
+                                )}
+                                {project.stack.backend && !project.stack.backend.includes("N/A") && !project.stack.backend.includes("None") && (
                                     <span className="text-[10px] px-1.5 py-0.5 bg-stone-100 text-stone-600 border border-stone-300 rounded">
                                         {project.stack.backend.split(',')[0].trim()}
                                     </span>

@@ -60,7 +60,7 @@ export default function ProfileCard({ onBack }: ProfileCardProps) {
               <div className="text-xs mb-1 text-blue-600">경력</div>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center">
-                  <div className="w-4 h-4 rounded-full bg-yellow-400 border border-black mr-2"></div>
+                  <div className="w-4 h-4 rounded-full bg-gray-400 border border-black mr-2"></div>
                   <div>
                     <div className="font-bold">바이오커넥트</div>
                     <div className="text-xs text-gray-500">2025.06 ~ 2025.12</div>
