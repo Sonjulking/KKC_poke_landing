@@ -17,7 +17,7 @@ export default function BattleMenu({
         { label: "프로필", id: 0 },
         { label: "포트폴리오", id: 1 },
         { label: "GitHub", id: 2 },
-        { label: "돌아가기", id: 3 },
+        { label: "포획하기", id: 3 },
     ],
 }: BattleMenuProps) {
     return (

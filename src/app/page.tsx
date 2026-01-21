@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import TypingText from "@/components/TypingText";
-import {motion} from "framer-motion";
-import {useState, useEffect} from "react";
-import {PORTFOLIO_ITEMS} from "@/data/portfolioData";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { PORTFOLIO_ITEMS } from "@/data/portfolioData";
 import BattleMenu from "@/components/BattleMenu";
 import PortfolioList from "@/components/PortfolioList";
 import PortfolioDetail from "@/components/PortfolioDetail";
 import ProfileCard from "@/components/ProfileCard";
+import CaptureModal from "@/components/CaptureModal";
 
 export default function Home() {
   /* 
@@ -20,10 +21,11 @@ export default function Home() {
   /* 
    Menu Index Mapping (2x2 Grid):
    0: Fight (Top Left)   | 1: Bag (Top Right)
-   2: Pokemon (Bot Left) | 3: Run (Bot Right)
+   2: Pokemon (Bot Left) | 3: Run (Bot Right) -> Capture
   */
   const [menuSelection, setMenuSelection] = useState<number>(0);
   const [portfolioSelection, setPortfolioSelection] = useState<number>(0);
+  const [showCaptureModal, setShowCaptureModal] = useState<boolean>(false);
 
   const handleMenuConfirm = (index: number = menuSelection) => {
     console.log(`Selected option index: ${index}`);
@@ -47,8 +49,12 @@ export default function Home() {
       }
       return;
     }
+    if (index === 3) { // '포획하기' (Capture)
+      setShowCaptureModal(true);
+      return;
+    }
 
-    alert(`You selected: ${["싸우다", "포트폴리오", "GitHub", "돌아가기"][index]}`);
+    alert(`You selected: ${["싸우다", "포트폴리오", "GitHub", "포획하기"][index]}`);
   };
 
   useEffect(() => {
@@ -103,18 +109,18 @@ export default function Home() {
       {/* Intro Animation Overlay */}
       <motion.div
         className="absolute inset-0 bg-black z-50 pointer-events-none"
-        initial={{opacity: 1}}
-        animate={{opacity: 0}}
-        transition={{duration: 1, ease: "easeOut"}}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
       />
 
       {/* 상단: 상대방 (예: 면접관, 방문자) */}
       {battleState !== "portfolio" && battleState !== "profile" && battleState !== "portfolio_detail" && (
         <motion.div
           className="w-full max-w-2xl flex justify-end items-center space-x-4 p-4 ml-100 -mt-12"
-          initial={{x: "100%", opacity: 0}}
-          animate={{x: 0, opacity: 1}}
-          transition={{type: "spring", stiffness: 60, damping: 20, delay: 0.5}}
+          initial={{ x: "100%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
         >
           <div className="flex space-x-1">
             {/* 포켓몬 볼 아이콘 6개 */}
@@ -122,16 +128,16 @@ export default function Home() {
               <motion.div
                 key={i}
                 className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
-                initial={{scale: 0}}
-                animate={{scale: 1}}
-                transition={{delay: 1.2 + i * 0.1, type: "spring"}}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
               ></motion.div>
             ))}
           </div>
           {/* 상대방 캐릭터 이미지 */}
           <motion.div
-            animate={{y: [0, -10, 0]}}
-            transition={{repeat: Infinity, duration: 1, ease: "easeInOut"}}
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
           >
             <Image
               src="/img/metamong.png"
@@ -148,14 +154,14 @@ export default function Home() {
       {battleState !== "portfolio" && battleState !== "profile" && battleState !== "portfolio_detail" && (
         <motion.div
           className="w-full max-w-2xl flex justify-start items-center space-x-4 p-4 mt-auto mb-8 mr-100"
-          initial={{x: "-200%", opacity: 0}}
-          animate={{x: 0, opacity: 1}}
-          transition={{type: "spring", stiffness: 60, damping: 20, delay: 0.5}}
+          initial={{ x: "-200%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
         >
           {/* 본인 캐릭터 이미지 */}
           <motion.div
-            animate={{y: [0, -10, 0]}}
-            transition={{repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.3}}
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.3 }}
           >
             <Image
               src="/img/player.png"
@@ -171,9 +177,9 @@ export default function Home() {
               <motion.div
                 key={i}
                 className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
-                initial={{scale: 0}}
-                animate={{scale: 1}}
-                transition={{delay: 1.2 + i * 0.1, type: "spring"}}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
               ></motion.div>
             ))}
           </div>
@@ -183,9 +189,9 @@ export default function Home() {
       {/* 중앙: 메시지 박스 또는 메뉴 */}
       <motion.div
         className="w-full max-w-3xl bg-white p-2 rounded-sm border-[6px] border-black shadow-[inset_0_0_0_4px_white,inset_0_0_0_8px_#555]"
-        initial={{y: 50, opacity: 0}}
-        animate={{y: 0, opacity: 1}}
-        transition={{delay: 1.5, duration: 0.5}}
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
       >
         <div className="p-4 min-h-[120px] relative">
           {battleState === "intro" ? (
@@ -223,9 +229,9 @@ export default function Home() {
           {battleState === "intro" && (
             <motion.div
               className="absolute bottom-2 right-4 text-lg text-gray-600 animate-pulse cursor-pointer hover:text-black font-bold font-['Galmuri11']"
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}
-              transition={{delay: 4}}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 4 }}
               onClick={() => setBattleState("menu")}
             >
               Press Enter ▼
@@ -233,6 +239,9 @@ export default function Home() {
           )}
         </div>
       </motion.div>
+
+      {/* Capture Modal */}
+      <CaptureModal isOpen={showCaptureModal} onClose={() => setShowCaptureModal(false)} />
     </main>
   );
 }
