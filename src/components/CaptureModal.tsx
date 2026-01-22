@@ -94,10 +94,10 @@ export default function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
                     )}
 
                     {/* Status Text */}
-                    {step === "throwing" && <p className="mt-8 text-white text-xl font-bold animate-pulse">Master Ball Go!</p>}
-                    {step === "shaking" && <p className="mt-8 text-white text-xl font-bold">Wiggle... Wiggle...</p>}
+{/*                    {step === "throwing" && <p className="mt-8 text-white text-xl font-bold animate-pulse">Master Ball Go!</p>}*/}
+{/*                    {step === "shaking" && <p className="mt-8 text-white text-xl font-bold">Wiggle... Wiggle...</p>}*/}
                     {step === "caught" && <p className="mt-8 text-yellow-300 text-2xl font-bold align-middle">
-                        신입 개발자 [김경철]을(를)<br />잡았다!
+                        야생의 개발자 고강찬을<br />잡았다!
                     </p>}
 
                     {/* Info Card (Final Step) */}
