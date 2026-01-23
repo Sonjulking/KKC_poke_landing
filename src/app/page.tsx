@@ -145,6 +145,8 @@ export default function Home() {
               alt="Rival"
               width={500}
               height={500}
+              loading="eager"
+              style={{ width: "auto", height: "auto" }}
               className="pixelated max-sm:w-[200px] max-sm:h-[200px]"
             />
           </motion.div>
