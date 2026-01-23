@@ -10,7 +10,7 @@ interface CaptureModalProps {
 
 export default function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
     const [step, setStep] = useState<"throwing" | "shaking" | "caught" | "info">("throwing");
-    const [email] = useState("rudcjf0903@gmail.com");
+    const [email] = useState("bushwick97@naver.com");
     const [phone] = useState("010-0000-0000"); // Placeholder for phone number
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
-                <div className="relative w-full max-w-md p-6 flex flex-col items-center justify-center text-center">
+                <div className="relative w-full max-w-md max-sm:max-w-xs p-6 max-sm:p-4 flex flex-col items-center justify-center text-center">
 
                     {/* Master Ball Animation / 마스터볼 그리기 */}
                     {step !== "info" && (
@@ -76,14 +76,14 @@ export default function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
                                 <img
                                     src="/img/ball2.png"
                                     alt="Master Ball"
-                                    className="w-64 h-64 object-contain"
+                                    className="w-64 h-64 max-sm:w-40 max-sm:h-40 object-contain"
                                 />
                             </motion.div>
 
                             {/* Stars/Effect when caught */}
                             {step === "caught" && (
                                 <motion.div
-                                    className="absolute -top-10 -left-10 w-44 h-44 text-yellow-400 font-bold text-2xl flex items-center justify-center"
+                                    className="absolute -top-10 max-sm:-top-6 -left-10 max-sm:-left-6 w-44 h-44 max-sm:w-28 max-sm:h-28 text-yellow-400 font-bold text-2xl max-sm:text-lg flex items-center justify-center"
                                     initial={{ scale: 0, opacity: 0 }}
                                     animate={{ scale: 1.2, opacity: 1 }}
                                 >
@@ -94,28 +94,28 @@ export default function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
                     )}
 
                     {/* Status Text */}
-{/*                    {step === "throwing" && <p className="mt-8 text-white text-xl font-bold animate-pulse">Master Ball Go!</p>}*/}
-{/*                    {step === "shaking" && <p className="mt-8 text-white text-xl font-bold">Wiggle... Wiggle...</p>}*/}
-                    {step === "caught" && <p className="mt-8 text-yellow-300 text-2xl font-bold align-middle">
+                    {/*                    {step === "throwing" && <p className="mt-8 text-white text-xl font-bold animate-pulse">Master Ball Go!</p>}*/}
+                    {/*                    {step === "shaking" && <p className="mt-8 text-white text-xl font-bold">Wiggle... Wiggle...</p>}*/}
+                    {step === "caught" && <p className="mt-8 max-sm:mt-4 text-yellow-300 text-2xl max-sm:text-xl font-bold align-middle">
                         야생의 개발자 고강찬을<br />잡았다!
                     </p>}
 
                     {/* Info Card (Final Step) */}
                     {step === "info" && (
                         <motion.div
-                            className="bg-white rounded-lg border-4 border-black p-6 w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                            className="bg-white rounded-lg border-4 max-sm:border-2 border-black p-6 max-sm:p-4 w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ type: "spring", bounce: 0.5 }}
                         >
-                            <h2 className="text-2xl font-bold mb-2">🎉 포획 성공!</h2>
-                            <p className="text-gray-600 mb-6">
+                            <h2 className="text-2xl max-sm:text-xl font-bold mb-2">🎉 포획 성공!</h2>
+                            <p className="text-gray-600 mb-6 max-sm:mb-4 max-sm:text-sm">
                                 야생의 개발자 고강찬을 붙잡았습니다!
                             </p>
 
                             <div className="space-y-3">
-                                <div className="p-3 bg-gray-100 rounded border border-gray-300 flex items-center justify-between">
-                                    <span className="font-mono text-sm">{email}</span>
+                                <div className="p-3 max-sm:p-2 bg-gray-100 rounded border border-gray-300 flex items-center justify-between">
+                                    <span className="font-mono text-sm max-sm:text-xs truncate mr-2">{email}</span>
                                     <button
                                         onClick={() => {
                                             navigator.clipboard.writeText(email);

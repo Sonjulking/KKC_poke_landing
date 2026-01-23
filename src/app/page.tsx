@@ -104,8 +104,9 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [battleState, menuSelection]);
 
+  /*bg-[linear-gradient(to_bottom,#A0D8EF_58%,#78C850_58%)]*/
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-between p-4 bg-gray-100 overflow-hidden">
+    <main className="relative flex min-h-screen flex-col items-center justify-between p-4 max-sm:p-2  overflow-hidden border-[12px] border-[#212121] shadow-[inset_0_0_0_6px_#f8fafc,inset_0_0_0_12px_#212121] max-sm:border-[6px] max-sm:shadow-[inset_0_0_0_3px_#f8fafc,inset_0_0_0_6px_#212121]">
       {/* Intro Animation Overlay */}
       <motion.div
         className="absolute inset-0 bg-black z-50 pointer-events-none"
@@ -117,7 +118,7 @@ export default function Home() {
       {/* 상단: 상대방 (예: 면접관, 방문자) */}
       {battleState !== "portfolio" && battleState !== "profile" && battleState !== "portfolio_detail" && (
         <motion.div
-          className="w-full max-w-2xl flex justify-end items-center space-x-4 p-4 ml-100 -mt-12"
+          className="w-full max-w-2xl flex justify-end items-center space-x-4 max-sm:space-x-2 p-4 max-sm:p-2 ml-100 max-sm:ml-0 -mt-12 max-sm:-mt-4"
           initial={{ x: "100%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
@@ -127,7 +128,7 @@ export default function Home() {
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
-                className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
+                className="w-4 h-4 max-sm:w-3 max-sm:h-3 bg-red-500 rounded-full border-2 max-sm:border border-black"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
@@ -144,7 +145,7 @@ export default function Home() {
               alt="Rival"
               width={500}
               height={500}
-              className="pixelated"
+              className="pixelated max-sm:w-[200px] max-sm:h-[200px]"
             />
           </motion.div>
         </motion.div>
@@ -153,7 +154,7 @@ export default function Home() {
       {/* 하단: 플레이어 (본인) */}
       {battleState !== "portfolio" && battleState !== "profile" && battleState !== "portfolio_detail" && (
         <motion.div
-          className="w-full max-w-2xl flex justify-start items-center space-x-4 p-4 mt-auto mb-8 mr-100"
+          className="w-full max-w-2xl flex justify-start items-center space-x-4 max-sm:space-x-2 p-4 max-sm:p-2 mt-auto mb-8 max-sm:mb-4 mr-100 max-sm:mr-0"
           initial={{ x: "-200%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.5 }}
@@ -168,7 +169,7 @@ export default function Home() {
               alt="Player"
               width={500}
               height={500}
-              className="pixelated"
+              className="pixelated max-sm:w-[200px] max-sm:h-[200px]"
             />
           </motion.div>
           <div className="flex space-x-1">
@@ -176,7 +177,7 @@ export default function Home() {
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
-                className="w-4 h-4 bg-red-500 rounded-full border-2 border-black"
+                className="w-4 h-4 max-sm:w-3 max-sm:h-3 bg-red-500 rounded-full border-2 max-sm:border border-black"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.2 + i * 0.1, type: "spring" }}
@@ -188,14 +189,14 @@ export default function Home() {
 
       {/* 중앙: 메시지 박스 또는 메뉴 */}
       <motion.div
-        className="w-full max-w-3xl bg-white p-2 rounded-sm border-[6px] border-black shadow-[inset_0_0_0_4px_white,inset_0_0_0_8px_#555]"
+        className="w-full max-w-3xl max-sm:max-w-full bg-white p-2 rounded-sm border-[6px] max-sm:border-4 border-black shadow-[inset_0_0_0_4px_white,inset_0_0_0_8px_#555] max-sm:shadow-[inset_0_0_0_2px_white,inset_0_0_0_4px_#555]"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
       >
-        <div className="p-4 min-h-[120px] relative">
+        <div className="p-4 max-sm:p-2 min-h-[120px] max-sm:min-h-[100px] relative">
           {battleState === "intro" ? (
-            <div className="text-2xl font-bold">
+            <div className="text-2xl max-sm:text-lg font-bold">
               <TypingText
                 text="야생의 개발자 고강찬을 마주쳤다."
                 startDelay={2.0}

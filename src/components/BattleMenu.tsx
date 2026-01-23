@@ -21,7 +21,7 @@ export default function BattleMenu({
     ],
 }: BattleMenuProps) {
     return (
-        <div className="grid grid-cols-2 gap-4 h-full text-xl font-bold">
+        <div className="grid grid-cols-2 gap-4 max-sm:gap-2 h-full text-xl max-sm:text-base font-bold">
             {options.map((item) => (
                 <button
                     key={item.id}
@@ -30,12 +30,12 @@ export default function BattleMenu({
                         setSelection(item.id);
                         onConfirm(item.id);
                     }}
-                    className={`p-2 text-left border-2 rounded flex items-center cursor-pointer ${selection === item.id
+                    className={`p-2 max-sm:p-1.5 text-left border-2 rounded flex items-center cursor-pointer ${selection === item.id
                         ? "border-black bg-gray-100"
                         : "border-transparent text-gray-400"
                         }`}
                 >
-                    <span className="w-6 inline-block">
+                    <span className="w-6 max-sm:w-4 inline-block">
                         {selection === item.id ? "▶" : ""}
                     </span>
                     {item.label}

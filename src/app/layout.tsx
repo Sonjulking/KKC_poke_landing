@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-    title: '포켓몬 트레이너 [이름]의 포트폴리오',
+    title: '고강찬의 포트폴리오',
     description: '야생의 개발자가 나타났다!',
 }
 
