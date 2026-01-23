@@ -3,7 +3,7 @@
 import Image from "next/image";
 import TypingText from "@/components/TypingText";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PORTFOLIO_ITEMS } from "@/data/portfolioData";
 import BattleMenu from "@/components/BattleMenu";
 import PortfolioList from "@/components/PortfolioList";
@@ -57,52 +57,121 @@ export default function Home() {
     alert(`You selected: ${["싸우다", "포트폴리오", "GitHub", "포획하기"][index]}`);
   };
 
+  // 상태별 키보드 핸들러 함수들
+  const handleIntroKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      setBattleState("menu");
+    }
+  };
+
+  const handleMenuKeyDown = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowRight":
+        setMenuSelection((prev) => (prev % 2 === 0 ? prev + 1 : prev));
+        break;
+      case "ArrowLeft":
+        setMenuSelection((prev) => (prev % 2 !== 0 ? prev - 1 : prev));
+        break;
+      case "ArrowDown":
+        setMenuSelection((prev) => (prev < 2 ? prev + 2 : prev));
+        break;
+      case "ArrowUp":
+        setMenuSelection((prev) => (prev >= 2 ? prev - 2 : prev));
+        break;
+      case "Enter":
+        handleMenuConfirm();
+        break;
+    }
+  };
+
+  const handlePortfolioKeyDown = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowDown":
+        setPortfolioSelection((prev) => (prev < PORTFOLIO_ITEMS.length - 1 ? prev + 1 : prev));
+        break;
+      case "ArrowUp":
+        setPortfolioSelection((prev) => (prev > 0 ? prev - 1 : prev));
+        break;
+      case "Escape":
+      case "Backspace":
+        setBattleState("menu");
+        break;
+      case "Enter":
+        setBattleState("portfolio_detail");
+        break;
+    }
+  };
+
+  const handleProfileKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" || e.key === "Backspace") {
+      setBattleState("menu");
+    }
+  };
+
+  const handlePortfolioDetailKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" || e.key === "Backspace") {
+      setBattleState("portfolio");
+    }
+  };
+
+  // 상태별 핸들러 맵
+  const keyHandlers: Record<typeof battleState, (e: KeyboardEvent) => void> = {
+    intro: handleIntroKeyDown,
+    menu: handleMenuKeyDown,
+    portfolio: handlePortfolioKeyDown,
+    profile: handleProfileKeyDown,
+    portfolio_detail: handlePortfolioDetailKeyDown,
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (battleState === "intro") {
-        if (e.key === "Enter") {
-          setBattleState("menu");
-        }
-      } else if (battleState === "menu") {
-        // Menu Navigation Logic
-        if (e.key === "ArrowRight") {
-          setMenuSelection((prev) => (prev % 2 === 0 ? prev + 1 : prev));
-        } else if (e.key === "ArrowLeft") {
-          setMenuSelection((prev) => (prev % 2 !== 0 ? prev - 1 : prev));
-        } else if (e.key === "ArrowDown") {
-          setMenuSelection((prev) => (prev < 2 ? prev + 2 : prev));
-        } else if (e.key === "ArrowUp") {
-          setMenuSelection((prev) => (prev >= 2 ? prev - 2 : prev));
-        } else if (e.key === "Enter") {
-          handleMenuConfirm();
-        }
-      } else if (battleState === "portfolio") {
-        // Portfolio Navigation Logic (Up/Down)
-        if (e.key === "ArrowDown") {
-          setPortfolioSelection(prev => (prev < PORTFOLIO_ITEMS.length - 1 ? prev + 1 : prev));
-        } else if (e.key === "ArrowUp") {
-          setPortfolioSelection(prev => (prev > 0 ? prev - 1 : prev));
-        } else if (e.key === "Escape" || e.key === "Backspace") {
-          setBattleState("menu");
-        } else if (e.key === "Enter") {
-          // Open Detail View
-          setBattleState("portfolio_detail");
-        }
-      } else if (battleState === "profile") {
-        // Profile Navigation Logic (Esc to Back)
-        if (e.key === "Escape" || e.key === "Backspace") {
-          setBattleState("menu");
-        }
-      } else if (battleState === "portfolio_detail") {
-        // Detail View Navigation (Esc to Back to List)
-        if (e.key === "Escape" || e.key === "Backspace") {
-          setBattleState("portfolio");
-        }
-      }
+      keyHandlers[battleState]?.(e);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [battleState, menuSelection]);
+  }, [battleState, menuSelection, portfolioSelection]);
+
+  const renderBattleContent = () => {
+    switch (battleState) {
+      case "intro":
+        return (
+          <div className="text-2xl max-sm:text-lg font-bold">
+            <TypingText
+              text="야생의 개발자 고강찬을 마주쳤다."
+              startDelay={5.0}
+            />
+          </div>
+        );
+      case "portfolio":
+        return (
+          <PortfolioList
+            items={PORTFOLIO_ITEMS}
+            selection={portfolioSelection}
+            setSelection={setPortfolioSelection}
+            onSelect={() => setBattleState("portfolio_detail")}
+            onBack={() => setBattleState("menu")}
+          />
+        );
+      case "portfolio_detail":
+        return (
+          <PortfolioDetail
+            item={PORTFOLIO_ITEMS[portfolioSelection]}
+            onBack={() => setBattleState("portfolio")}
+          />
+        );
+      case "profile":
+        return <ProfileCard onBack={() => setBattleState("menu")} />;
+      case "menu":
+      default:
+        return (
+          <BattleMenu
+            selection={menuSelection}
+            setSelection={setMenuSelection}
+            onConfirm={handleMenuConfirm}
+          />
+        );
+    }
+  };
 
   /*bg-[linear-gradient(to_bottom,#A0D8EF_58%,#78C850_58%)]*/
   return (
@@ -197,38 +266,9 @@ export default function Home() {
         transition={{ delay: 1.5, duration: 0.5 }}
       >
         <div className="p-4 max-sm:p-2 min-h-[120px] max-sm:min-h-[100px] relative">
-          {battleState === "intro" ? (
-            <div className="text-2xl max-sm:text-lg font-bold">
-              <TypingText
-                text="야생의 개발자 고강찬을 마주쳤다."
-                startDelay={2.0}
-              />
-            </div>
-          ) : battleState === "portfolio" ? (
-            <PortfolioList
-              items={PORTFOLIO_ITEMS}
-              selection={portfolioSelection}
-              setSelection={setPortfolioSelection}
-              onSelect={() => setBattleState("portfolio_detail")}
-              onBack={() => setBattleState("menu")}
-            />
-          ) : battleState === "portfolio_detail" ? (
-            <PortfolioDetail
-              item={PORTFOLIO_ITEMS[portfolioSelection]}
-              onBack={() => setBattleState("portfolio")}
-            />
-          ) : battleState === "profile" ? (
-            <ProfileCard
-              onBack={() => setBattleState("menu")}
-            />
-          ) : (
-            <BattleMenu
-              selection={menuSelection}
-              setSelection={setMenuSelection}
-              onConfirm={handleMenuConfirm}
-            />
-          )}
-          {/* Enter Key Hint (optional, hidden in visuals but useful for DX) */}
+          {renderBattleContent()}
+
+          {/* Enter Key Hint */}
           {battleState === "intro" && (
             <motion.div
               className="absolute bottom-2 right-4 text-lg text-gray-600 animate-pulse cursor-pointer hover:text-black font-bold font-['Galmuri11']"
