@@ -61,7 +61,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     title: "EGG (개인 프로젝트)",
     desc: "발로란트 유저들을 위한 포지션 성향(VBTI) 분석, 추천 및 프로게이머 장비 통계 제공 웹 프로젝트",
     stack: {frontend: "Thymeleaf", backend: "SpringBoot"},
-    features: ["Image Optimization", "Code Minification", "Fast Build"],
+    features: ["게시판 CRUD", "발로란트 포지션 추천 (VBTI)", "출석 포인트 지급"],
     url: "http://www.valorant-egg.com/",
     githubUrl: "https://github.com/Sonjulking/vware",
     notionUrl: "https://www.notion.so/27842709847c80ed8eb1e10309023a53?source=copy_link#27842709847c80cd9a58cf47741f087c"

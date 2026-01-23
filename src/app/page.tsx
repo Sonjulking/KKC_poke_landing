@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import TypingText from "@/components/TypingText";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { PORTFOLIO_ITEMS } from "@/data/portfolioData";
+import {motion} from "framer-motion";
+import {useEffect, useState} from "react";
+import {PORTFOLIO_ITEMS} from "@/data/portfolioData";
 import BattleMenu from "@/components/BattleMenu";
 import PortfolioList from "@/components/PortfolioList";
 import PortfolioDetail from "@/components/PortfolioDetail";
