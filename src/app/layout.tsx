@@ -1,6 +1,7 @@
 // app/layout.tsx
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "고강찬의 포트폴리오",
@@ -17,8 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      {/* 폰트 클래스 제거 (globals.css에서 통합 관리) */}
-      <body>{children}</body>
+      <body className="antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

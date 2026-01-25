@@ -23,11 +23,13 @@ export default function PortfolioList({
             <div className="text-sm max-sm:text-xs mb-2 font-bold border-b-2 border-gray-200 pb-1">
                 PORTFOLIO LIST
             </div>
-            <div className="flex-1 overflow-y-auto space-y-2 max-sm:space-y-1.5 pr-1">
+            <div className={`flex-1 overflow-y-auto space-y-2 max-sm:space-y-1.5 pr-1 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent`}>
                 {items.map((project, idx) => (
                     <div
                         key={idx}
-                        className={`flex items-center p-2 max-sm:p-1.5 border-2 rounded-md cursor-pointer ${selection === idx ? "border-black bg-gray-100" : "border-gray-200"
+                        className={`flex items-center p-2 max-sm:p-1.5 border-2 rounded-md cursor-pointer transition-colors ${selection === idx
+                            ? "border-black bg-gray-100 dark:border-white dark:bg-gray-800"
+                            : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900"
                             }`}
                         onMouseEnter={() => setSelection(idx)}
                         onClick={() => {
@@ -39,25 +41,25 @@ export default function PortfolioList({
                             {selection === idx ? "▶" : "●"}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <div className="font-bold flex justify-between max-sm:text-sm">
+                            <div className="font-bold flex justify-between max-sm:text-sm text-black dark:text-white">
                                 <span className="truncate">{project.title}</span>
                                 {/*<span className="text-xs">Lv.50</span>*/}
                             </div>
-                            <div className="text-xs max-sm:text-[10px] text-gray-500 truncate">{project.desc}</div>
+                            <div className="text-xs max-sm:text-[10px] text-gray-600 dark:text-gray-200 truncate">{project.desc}</div>
                             {/* Tech Badges instead of HP Bar */}
                             <div className="mt-1 flex flex-wrap gap-1">
                                 {project.stack.language && (
-                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-green-100 text-green-800 border border-green-300 rounded">
+                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-green-100 text-green-800 border border-green-300 rounded dark:bg-green-900 dark:text-green-100 dark:border-green-700">
                                         {project.stack.language.split(',')[0].trim()}
                                     </span>
                                 )}
                                 {project.stack.frontend && (
-                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-blue-100 text-blue-800 border border-blue-300 rounded">
+                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-blue-100 text-blue-800 border border-blue-300 rounded dark:bg-blue-900 dark:text-blue-100 dark:border-blue-700">
                                         {project.stack.frontend.split(',')[0].trim()}
                                     </span>
                                 )}
                                 {project.stack.backend && !project.stack.backend.includes("N/A") && !project.stack.backend.includes("None") && (
-                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-stone-100 text-stone-600 border border-stone-300 rounded">
+                                    <span className="text-[10px] max-sm:text-[8px] px-1.5 max-sm:px-1 py-0.5 bg-stone-100 text-stone-800 border border-stone-300 rounded dark:bg-stone-800 dark:text-stone-200 dark:border-stone-600">
                                         {project.stack.backend.split(',')[0].trim()}
                                     </span>
                                 )}
@@ -67,7 +69,7 @@ export default function PortfolioList({
                 ))}
             </div>
             <div
-                className="mt-2 text-xs text-right text-gray-400 cursor-pointer hover:text-black"
+                className="mt-2 text-xs text-right text-gray-500 cursor-pointer hover:text-black dark:text-gray-400 dark:hover:text-white"
                 onClick={onBack}
             >
                 [ESC] BACK

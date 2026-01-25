@@ -31,11 +31,11 @@ export default function BattleMenu({
                         onConfirm(item.id);
                     }}
                     className={`p-2 max-sm:p-1.5 text-left border-2 rounded flex items-center cursor-pointer ${selection === item.id
-                        ? "border-black bg-gray-100"
-                        : "border-transparent text-gray-400"
+                        ? "border-black bg-gray-100 text-black dark:border-white dark:bg-gray-800 dark:text-white"
+                        : "border-transparent text-gray-600 dark:text-gray-300"
                         }`}
                 >
-                    <span className="w-6 max-sm:w-4 inline-block">
+                    <span className="w-6 max-sm:w-4 inline-block text-red-500">
                         {selection === item.id ? "▶" : ""}
                     </span>
                     {item.label}
