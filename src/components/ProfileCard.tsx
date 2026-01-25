@@ -16,7 +16,7 @@ export default function ProfileCard({ onBack }: ProfileCardProps) {
       </div>
       <div className="flex max-sm:flex-col flex-1">
         {/* Left: Avatar */}
-        <div className="w-1/3 max-sm:w-full max-sm:h-24 border-2 border-gray-400 bg-gray-200 dark:bg-gray-700 dark:border-gray-500 relative overflow-hidden mr-4 max-sm:mr-0 max-sm:mb-2">
+        <div className="w-1/3 max-sm:w-32 max-sm:aspect-square flex-shrink-0 border-2 border-gray-400 bg-gray-200 dark:bg-gray-700 dark:border-gray-500 relative overflow-hidden mr-4 max-sm:mr-0 max-sm:mb-2 max-sm:self-center">
           <Image
             src="/img/metamong.png"
             alt="Profile"

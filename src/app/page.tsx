@@ -12,13 +12,13 @@ import ProfileCard from "@/components/ProfileCard";
 import CaptureModal from "@/components/CaptureModal";
 
 export default function Home() {
-  /* 
-   BattleState 'portfolio' mimics the Pokemon 'Party' screen 
+  /*
+   BattleState 'portfolio' mimics the Pokemon 'Party' screen
    where users see a list of projects.
   */
   const [battleState, setBattleState] = useState<"intro" | "menu" | "portfolio" | "profile" | "portfolio_detail">("intro");
 
-  /* 
+  /*
    Menu Index Mapping (2x2 Grid):
    0: Fight (Top Left)   | 1: Bag (Top Right)
    2: Pokemon (Bot Left) | 3: Run (Bot Right) -> Capture
@@ -137,7 +137,7 @@ export default function Home() {
         return (
           <div className="text-2xl max-sm:text-lg font-bold">
             <TypingText
-              text="야생의 개발자 고강찬을 마주쳤다."
+              text="야생의 개발자 고강찬을 마주쳤다. 무엇을 할까?"
               startDelay={5.0}
             />
           </div>
