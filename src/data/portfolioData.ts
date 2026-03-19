@@ -18,6 +18,14 @@ export interface PortfolioItem {
 
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
+    title: "LLM-Music",
+    desc: "재생목록 분석을 통한 로컬 LLM AI 기반 사용자 취향 분석 도출 및 추천곡 제공",
+    stack: {frontend: "React", backend: "FastAPI"},
+    features: ["유튜브 플레이리스트 기반 오디오 추출", "오디오 특성 추출 및 Sound DNA 시각화", "리스너 페르소나 분석 및 곡 추천"],
+    githubUrl: "https://github.com/Sonjulking/GameCut_final_backend",
+    notionUrl: "https://www.notion.so/27842709847c80ed8eb1e10309023a53?source=copy_link#27842709847c80909c2de04b662e6518"
+  },
+  {
     title: "바이탈플랫폼 (바이오커넥트)",
     desc: "회원관리 및 생체정보 시각화 프로젝트",
     stack: {frontend: "React", backend: "Spring Boot", DB: "MySQL"},
